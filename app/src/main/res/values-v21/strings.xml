@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save">Save</string>
+    <string name="configure_the_meter">Configure The Meter</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="module_s_n">Module S/N</string>
+    <string name="end_date_optional">End Date (Optional)</string>
+    <string name="fetch">Fetch</string>
+    <string name="select_short">Sel</string>
+    <string name="meter_units">Meter Units</string>
+    <string name="unit_price">Unit Price</string>
+</resources>

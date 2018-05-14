@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "630606175350",
+    "firebase_url": "https://flowness-82d26.firebaseio.com",
+    "project_id": "flowness-82d26",
+    "storage_bucket": "flowness-82d26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630606175350:android:66ec6e9effc4e695",
+        "android_client_info": {
+          "package_name": "com.flowness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630606175350-8q3s8ids43lq7nogg94o7ehs8l79vtu1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flowness",
+            "certificate_hash": "46a9ab5663a6827ce59657031a02777bcfcba0f4"
+          }
+        },
+        {
+          "client_id": "630606175350-35gq349qodp87l7qf36rvot71k6o7ain.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDntHYaOuAXO3EwBYAe2xrT64iIH5TBzMU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630606175350-35gq349qodp87l7qf36rvot71k6o7ain.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

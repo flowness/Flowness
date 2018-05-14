@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_meter_settings"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Meter Settings" />
+        <item
+            android:id="@+id/nav_sum_reading"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Reading Sum" />
+        <item
+            android:id="@+id/nav_reading_graph"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Reading Graph" />
+        <item
+            android:id="@+id/nav_notification_config"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Notifications Config." />
+    </group>
+
+    <item android:title="Support">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Contact Flowness" />
+        </menu>
+    </item>
+
+</menu>

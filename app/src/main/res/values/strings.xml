@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Flowness</string>
+    <string name="title_activity_nav_drawer">Flowness</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="no_meter_configured">No Meter Configured</string>
+    <string name="first_login_text">First time login!</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="save">Save</string>
+    <string name="configure_the_meter">Configure The Meter</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="module_s_n">Module S/N</string>
+    <string name="start_date_optional">Start Date (Optional)</string>
+    <string name="end_date_optional">End Date (Optional)</string>
+    <string name="fetch">Fetch</string>
+    <string name="select_short">Sel</string>
+    <string name="hello_world">Hello World</string>
+    <string name="meter_units">Meter Units</string>
+    <string name="unit_price">Unit Price</string>
+    <string name="first_week_day">First Week Day</string>
+
+    <string-array name="dow_arrays">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string-array name="meter_units">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+    <string name="title_activity_meter_notifications">Notifications Config.</string>
+</resources>
