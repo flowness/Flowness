@@ -47,8 +47,8 @@
             android:name=".activities.StatsActivity"
             android:parentActivityName=".activities.NavDrawerActivity" />
         <activity
-            android:name=".activities.MeterNotificationsActivity"
-            android:label="@string/title_activity_meter_notifications"
+            android:name=".activities.AlertsConfigActivity"
+            android:label="@string/title_activity_alerts_config"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

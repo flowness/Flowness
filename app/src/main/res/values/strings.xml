@@ -34,5 +34,5 @@
         <item>Metric</item>
         <item>Imperial</item>
     </string-array>
-    <string name="title_activity_meter_notifications">Notifications Config.</string>
+    <string name="title_activity_alerts_config">Alerts Configuration</string>
 </resources>

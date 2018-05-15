@@ -17,9 +17,9 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Reading Graph" />
         <item
-            android:id="@+id/nav_notification_config"
+            android:id="@+id/nav_alerts_config"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Notifications Config." />
+            android:title="Alerts Configuration" />
     </group>
 
     <item android:title="Support">

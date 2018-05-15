@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.MeterNotificationsActivity"
-    tools:showIn="@layout/activity_meter_notifications">
+    tools:context=".activities.AlertsConfigActivity"
+    tools:showIn="@layout/activity_meter_alerts_config">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,24 +25,25 @@
             android:orientation="horizontal"
             android:textAlignment="textStart">
 
-            <Switch
-                android:id="@+id/freeze_alert_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-
             <TextView
                 android:id="@+id/freeze_alert_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:labelFor="@+id/sn_edit"
+                android:labelFor="@+id/freeze_alert_switch"
                 android:paddingEnd="3dip"
                 android:paddingStart="3dip"
                 android:text="Freeze Alert"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/freeze_alert_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
 
         </LinearLayout>
 
@@ -51,12 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <Switch
-                android:id="@+id/irregularity_alert_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
 
             <TextView
                 android:id="@+id/irregularity_alert_label"
@@ -71,6 +66,12 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
+            <Switch
+                android:id="@+id/irregularity_alert_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -78,12 +79,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <Switch
-                android:id="@+id/leakage_alert_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
 
             <TextView
                 android:id="@+id/leakage_alert_label"
@@ -97,6 +92,12 @@
                 android:text="Leakage Alert"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/leakage_alert_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
 
         </LinearLayout>
 
@@ -112,12 +113,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Switch
-                    android:id="@+id/zero_flow_alert_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="" />
-
                 <TextView
                     android:id="@+id/zero_flow_alert_label"
                     android:layout_width="0dp"
@@ -127,29 +122,54 @@
                     android:labelFor="@+id/sn_edit"
                     android:paddingEnd="3dip"
                     android:paddingStart="3dip"
-                    android:text="0-Flow Hours:"
+                    android:text="Zero-Flow Hours Alert:"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
+                <Switch
+                    android:id="@+id/zero_flow_alert_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/zero_flow_alert_hours"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="between" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Between" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="to" />
+                <TextView
+                    android:id="@+id/zero_flow_alert_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="00:00" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="to" />
+
+                <TextView
+                    android:id="@+id/zero_flow_alert_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="01:00" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -164,12 +184,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Switch
-                    android:id="@+id/monthly_alert_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="" />
-
                 <TextView
                     android:id="@+id/monthly_alert_label"
                     android:layout_width="0dp"
@@ -183,21 +197,43 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
+                <Switch
+                    android:id="@+id/monthly_alert_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/monthly_alert_amount_config"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Alert when exceed" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Alert when exceeds" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Liters" />
+                <TextView
+                    android:id="@+id/monthly_alert_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="100"/>
+
+                <TextView
+                    android:id="@+id/monthly_alert_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Liters" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

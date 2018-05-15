@@ -276,8 +276,8 @@ public class NavDrawerActivity extends AppCompatActivity
             startActivity(new Intent(NavDrawerActivity.this, SumActivity.class));
         } else if (id == R.id.nav_reading_graph) {
             startActivity(new Intent(NavDrawerActivity.this, StatsActivity.class));
-        } else if (id == R.id.nav_notification_config) {
-            startActivity(new Intent(NavDrawerActivity.this, MeterNotificationsActivity.class));
+        } else if (id == R.id.nav_alerts_config) {
+            startActivity(new Intent(NavDrawerActivity.this, AlertsConfigActivity.class));
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_contact) {
