@@ -35,4 +35,5 @@
         <item>Imperial</item>
     </string-array>
     <string name="title_activity_alerts_config">Alerts Configuration</string>
+    <string name="title_activity_meter_settings">Meter Settings</string>
 </resources>

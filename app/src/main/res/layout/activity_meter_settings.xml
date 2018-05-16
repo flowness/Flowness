@@ -25,18 +25,6 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp">
 
-        <TextView
-            android:id="@+id/top_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:paddingEnd="3dip"
-            android:paddingStart="3dip"
-            android:text="@string/configure_the_meter"
-            android:textColor="@android:color/black"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:id="@+id/meter_sn_config"
             android:layout_width="match_parent"
@@ -62,10 +50,9 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:imeOptions="actionDone"
-                android:digits="0123456789abcdefABCDEF"
+                android:digits="0123456789abcdefmspABCDEFMSP"
                 android:inputType="text"
                 android:lines="1"
-                android:maxLength="8"
                 android:maxLines="1"
                 android:paddingEnd="10dip"
                 android:paddingStart="10dip"

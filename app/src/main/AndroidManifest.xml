@@ -42,6 +42,7 @@
         </activity>
         <activity
             android:name=".activities.MeterSettingsActivity"
+            android:label="@string/title_activity_meter_settings"
             android:parentActivityName=".activities.NavDrawerActivity" />
         <activity
             android:name=".activities.StatsActivity"

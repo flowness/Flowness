@@ -42,6 +42,7 @@
                 android:id="@+id/freeze_alert_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="swfreeze"
                 android:text="" />
 
 
@@ -70,6 +71,7 @@
                 android:id="@+id/irregularity_alert_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="swirregularity"
                 android:text="" />
 
         </LinearLayout>
@@ -97,6 +99,7 @@
                 android:id="@+id/leakage_alert_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="swleakage"
                 android:text="" />
 
         </LinearLayout>
@@ -130,12 +133,13 @@
                     android:id="@+id/zero_flow_alert_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:tag="swzeroflow"
                     android:text="" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/zero_flow_alert_hours"
+                android:id="@+id/zero_flow_alert_hours_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -153,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
+                    android:background="@drawable/back"
                     android:text="00:00" />
 
                 <TextView
@@ -168,6 +173,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
+                    android:background="@drawable/back"
                     android:text="01:00" />
             </LinearLayout>
         </LinearLayout>
@@ -198,15 +204,16 @@
                     android:textSize="16sp" />
 
                 <Switch
-                    android:id="@+id/monthly_alert_switch"
+                    android:id="@+id/monthly_cost_alert_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:tag="swmonthly"
                     android:text="" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/monthly_alert_amount_config"
+                android:id="@+id/monthly_cost_alert_config_amount_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -219,15 +226,16 @@
                     android:text="Alert when exceeds" />
 
                 <TextView
-                    android:id="@+id/monthly_alert_amount"
+                    android:id="@+id/monthly_cost_alert_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
+                    android:background="@drawable/back"
                     android:text="100"/>
 
                 <TextView
-                    android:id="@+id/monthly_alert_unit"
+                    android:id="@+id/monthly_cost_alert_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="5dp"
