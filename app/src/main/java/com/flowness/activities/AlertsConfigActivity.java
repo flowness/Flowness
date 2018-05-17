@@ -16,10 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.flowness.R;
 import com.flowness.utils.SharedPreferencesKeys;
+import com.flowness.volley.BasicRequest;
+import com.flowness.volley.GetAlertsConfigRequest;
+import com.flowness.volley.UpdateAlertsConfigRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
@@ -37,6 +42,8 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
     TimePickerDialog.OnTimeSetListener tplEnd;
     TextView tvMonthlyCost;
     TextView tvMonthlyCostUnits;
+    private String savedMeterSN;
+    private int unitsScheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +70,75 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
         swZeroFlowAlert.setOnCheckedChangeListener(this);
         swMonthlyCostAlert = findViewById(R.id.monthly_cost_alert_switch);
         swMonthlyCostAlert.setOnCheckedChangeListener(this);
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(SharedPreferencesKeys.SP_ROOT_NAME, MODE_PRIVATE); // 0 - for private mode
         tvMonthlyCostUnits = findViewById(R.id.monthly_cost_alert_unit);
-        tvMonthlyCostUnits.setText(pref.getInt(SharedPreferencesKeys.METER_UNITS_PREF_KEY, 0) == 0 ? "Liters" : "Gallons");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(SharedPreferencesKeys.SP_ROOT_NAME, MODE_PRIVATE); // 0 - for private mode
+        savedMeterSN = pref.getString(SharedPreferencesKeys.SAVED_METER_SN_PREF_KEY, null); // getting String
+        unitsScheme = pref.getInt(SharedPreferencesKeys.METER_UNITS_PREF_KEY, 0);
         setValuesFromDB();
+        tvMonthlyCostUnits.setText(unitsScheme == 0 ? "Liters" : "Gallons");
     }
 
     private void setValuesFromDB() {
-        
+        // Request a string response from the provided URL.
+        new GetAlertsConfigRequest(savedMeterSN,
+                new BasicRequest.ResponseListener() {
+                    @Override
+                    public void onResponse(BasicRequest.Response response) {
+                        if (response.isSuccess()) {
+                            try {
+                                JSONObject responseJson = new JSONObject(response.data);
+//                            JSONObject responseBody = responseJson.getJSONObject("body");
+                                JSONObject body = new JSONObject(responseJson.getString("body"));
+                                swFreezeAlert.setChecked(getDynamoDBBool(body, "freezeAlert", false));
+                                swLeakageAlert.setChecked(getDynamoDBBool(body, "leakageAlert", false));
+                                swMonthlyCostAlert.setChecked(getDynamoDBBool(body, "monthlyCostAlert", false));
+                                tvMonthlyCost.setText(getDynamoDBString(body, "monthlyCostAlertAmount", "100"));
+                                setEnabledLinearLayout(swMonthlyCostAlert.isChecked(), R.id.monthly_cost_alert_config_amount_layout);
+                                swIrregularityAlert.setChecked(getDynamoDBBool(body, "irregularityAlert", false));
+                                swZeroFlowAlert.setChecked(getDynamoDBBool(body, "zeroFlowHoursAlert", false));
+                                String zeroFlowHoursStart = getDynamoDBString(body, "zeroFlowHoursStart", "0000");
+                                tvZeroFlowStart.setText(getHourFormatFromString(zeroFlowHoursStart));
+                                String zeroFlowHoursEnd = getDynamoDBString(body, "zeroFlowHoursEnd", "0000");
+                                tvZeroFlowEnd.setText(getHourFormatFromString(zeroFlowHoursEnd));
+                                setEnabledLinearLayout(swZeroFlowAlert.isChecked(), R.id.zero_flow_alert_hours_layout);
+
+                                Log.d("Alerts Config", String.format("Alerts Config: %s", body.toString(2)));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    private String getHourFormatFromString(String dbStr) {
+                        return String.format("%c%c:%c%c", dbStr.charAt(0), dbStr.charAt(1), dbStr.charAt(2), dbStr.charAt(3));
+                    }
+
+                    private boolean getDynamoDBBool(JSONObject jsonObject, String keyName, boolean defaultVal) {
+                        try {
+                            JSONObject dynamoValue = jsonObject.getJSONObject(keyName);
+                            return dynamoValue.getBoolean("BOOL");
+                        } catch (JSONException e) {
+                            return defaultVal;
+                        }
+                    }
+
+                    private String getDynamoDBString(JSONObject jsonObject, String keyName, String defaultVal) {
+                        try {
+                            JSONObject dynamoValue = jsonObject.getJSONObject(keyName);
+                            return dynamoValue.getString("S");
+                        } catch (JSONException e) {
+                            return defaultVal;
+                        }
+                    }
+                }).execute(AlertsConfigActivity.this);
     }
 
     @Override
@@ -121,35 +185,15 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//        saveValuesToDB();
         switch (buttonView.getTag().toString()) {
             case "swfreeze": {
-                if (isChecked) {
-                    Toast.makeText(AlertsConfigActivity.this,
-                            "Switch On", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(AlertsConfigActivity.this,
-                            "Switch Off", Toast.LENGTH_SHORT).show();
-                }
                 break;
             }
             case "swirregularity": {
-                if (isChecked) {
-                    Toast.makeText(AlertsConfigActivity.this,
-                            "Switch On", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(AlertsConfigActivity.this,
-                            "Switch Off", Toast.LENGTH_SHORT).show();
-                }
                 break;
             }
             case "swleakage": {
-                if (isChecked) {
-                    Toast.makeText(AlertsConfigActivity.this,
-                            "Switch On", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(AlertsConfigActivity.this,
-                            "Switch Off", Toast.LENGTH_SHORT).show();
-                }
                 break;
             }
             case "swzeroflow": {
@@ -161,6 +205,30 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
                 break;
             }
         }
+    }
+
+    private void saveValuesToDB() {
+        String postBody = getPostBody();
+        new UpdateAlertsConfigRequest(postBody,
+                new BasicRequest.ResponseListener() {
+                    @Override
+                    public void onResponse(BasicRequest.Response response) {
+                        if (response.isSuccess()) {
+                            try {
+                                JSONObject responseJson = new JSONObject(response.data);
+//                            JSONObject responseBody = responseJson.getJSONObject("body");
+                                JSONObject body = new JSONObject(responseJson.getString("body"));
+                                Log.d("Alerts Config", String.format("Alerts Config saved"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).execute(AlertsConfigActivity.this);
+    }
+
+    private String getPostBody() {
+        return this.savedMeterSN;
     }
 
     private void setEnabledLinearLayout(boolean isChecked, int id) {
