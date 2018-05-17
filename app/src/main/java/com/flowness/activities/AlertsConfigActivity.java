@@ -18,10 +18,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.flowness.R;
+import com.flowness.utils.JsonConst;
 import com.flowness.utils.SharedPreferencesKeys;
 import com.flowness.volley.BasicRequest;
 import com.flowness.volley.GetAlertsConfigRequest;
 import com.flowness.volley.UpdateAlertsConfigRequest;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,23 +56,15 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
         setSupportActionBar(toolbar);
 
         tvZeroFlowStart = findViewById(R.id.zero_flow_alert_start);
-        tvZeroFlowStart.setOnClickListener(this);
         tplStart = new myTimeSetListener(tvZeroFlowStart, calZeroFlowStart);
         tvZeroFlowEnd = findViewById(R.id.zero_flow_alert_end);
-        tvZeroFlowEnd.setOnClickListener(this);
         tplEnd = new myTimeSetListener(tvZeroFlowEnd, calZeroFlowEnd);
         tvMonthlyCost = findViewById(R.id.monthly_cost_alert_amount);
-        tvMonthlyCost.setOnClickListener(this);
         swFreezeAlert = findViewById(R.id.freeze_alert_switch);
-        swFreezeAlert.setOnCheckedChangeListener(this);
         swIrregularityAlert = findViewById(R.id.irregularity_alert_switch);
-        swIrregularityAlert.setOnCheckedChangeListener(this);
         swLeakageAlert = findViewById(R.id.leakage_alert_switch);
-        swLeakageAlert.setOnCheckedChangeListener(this);
         swZeroFlowAlert = findViewById(R.id.zero_flow_alert_switch);
-        swZeroFlowAlert.setOnCheckedChangeListener(this);
         swMonthlyCostAlert = findViewById(R.id.monthly_cost_alert_switch);
-        swMonthlyCostAlert.setOnCheckedChangeListener(this);
         tvMonthlyCostUnits = findViewById(R.id.monthly_cost_alert_unit);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,13 +72,25 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
         SharedPreferences pref = getApplicationContext().getSharedPreferences(SharedPreferencesKeys.SP_ROOT_NAME, MODE_PRIVATE); // 0 - for private mode
         savedMeterSN = pref.getString(SharedPreferencesKeys.SAVED_METER_SN_PREF_KEY, null); // getting String
         unitsScheme = pref.getInt(SharedPreferencesKeys.METER_UNITS_PREF_KEY, 0);
         setValuesFromDB();
         tvMonthlyCostUnits.setText(unitsScheme == 0 ? "Liters" : "Gallons");
+        //
+        swFreezeAlert.setOnCheckedChangeListener(this);
+        swIrregularityAlert.setOnCheckedChangeListener(this);
+        swLeakageAlert.setOnCheckedChangeListener(this);
+        swZeroFlowAlert.setOnCheckedChangeListener(this);
+        swMonthlyCostAlert.setOnCheckedChangeListener(this);
+        //
+        tvZeroFlowStart.setOnClickListener(this);
+        tvZeroFlowEnd.setOnClickListener(this);
+        tvMonthlyCost.setOnClickListener(this);
+
+
     }
 
     private void setValuesFromDB() {
@@ -171,6 +178,7 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
                 public void onClick(DialogInterface dialog, int id) {
                     Log.e("AlertsConfig", String.format("New Quantity Value : %d", numberPicker.getValue()));
                     tvMonthlyCost.setText(String.format("%d", numberPicker.getValue()));
+                    saveValuesToDB();
                 }
             });
             alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -185,7 +193,7 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//        saveValuesToDB();
+        saveValuesToDB();
         switch (buttonView.getTag().toString()) {
             case "swfreeze": {
                 break;
@@ -228,7 +236,17 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
     }
 
     private String getPostBody() {
-        return this.savedMeterSN;
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("moduleSN", savedMeterSN);
+        requestBody.addProperty("freezeAlert", swFreezeAlert.isChecked());
+        requestBody.addProperty("irregularityAlert", swIrregularityAlert.isChecked());
+        requestBody.addProperty("leakageAlert", swLeakageAlert.isChecked());
+        requestBody.addProperty("zeroFlowHoursAlert", swZeroFlowAlert.isChecked());
+        requestBody.addProperty("zeroFlowHoursStart", tvZeroFlowStart.getText().toString().replace(":", ""));
+        requestBody.addProperty("zeroFlowHoursEnd", tvZeroFlowEnd.getText().toString().replace(":", ""));
+        requestBody.addProperty("monthlyCostAlert", swMonthlyCostAlert.isChecked());
+        requestBody.addProperty("monthlyCostAlertAmount", tvMonthlyCost.getText().toString());
+        return requestBody.toString();
     }
 
     private void setEnabledLinearLayout(boolean isChecked, int id) {
@@ -259,6 +277,7 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
             calendar.set(Calendar.MINUTE, minute);
             String hourMinute = String.format("%s%d:%s%d", (hourOfDay >= 10 ? "" : "0"), hourOfDay, (minute >= 10 ? "" : "0"), minute);
             tv.setText(hourMinute);
+            saveValuesToDB();
         }
     }
 
