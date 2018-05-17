@@ -113,11 +113,11 @@ public class StatsActivity extends AppCompatActivity implements AdapterView.OnIt
                                 Log.d("graphView", body.toString());
 
                                 List<Date> xList = new ArrayList<>(body.size());
-                                List<Integer> yList = new ArrayList<>(body.size());
+                                List<Float> yList = new ArrayList<>(body.size());
                                 for (int i = 0; i < body.size(); i++) {
                                     JsonObject range = (JsonObject) body.get(i);
                                     xList.add(DateUtils.getDate(range.get(JsonConst.RANGE_END).getAsString()));
-                                    yList.add(Integer.valueOf(range.get(JsonConst.RANGE_SUM).getAsString()));
+                                    yList.add(Float.valueOf(range.get(JsonConst.RANGE_SUM).getAsString()));
                                 }
                                 // create a couple arrays of y-values to plot:
                                 final Date[] domainLabels = xList.toArray(new Date[body.size()]);

@@ -117,7 +117,7 @@ public class NavDrawerActivity extends AppCompatActivity
                                 JSONObject body = new JSONObject(responseJson.getString("body"));
                                 String count = body.getJSONObject("totalCount").getString("N");
                                 tvMonthAmount.setText(count);
-                                tvMonthCost.setText(String.valueOf(Integer.valueOf(count) * unitCost));
+                                tvMonthCost.setText(String.valueOf(Float.valueOf(count) * unitCost));
                                 Log.d("Counter", "total response");
                             } catch (Exception e) {
                                 e.printStackTrace();

@@ -46,6 +46,7 @@
             android:parentActivityName=".activities.NavDrawerActivity" />
         <activity
             android:name=".activities.StatsActivity"
+            android:label="@string/title_activity_stats"
             android:parentActivityName=".activities.NavDrawerActivity" />
         <activity
             android:name=".activities.AlertsConfigActivity"
