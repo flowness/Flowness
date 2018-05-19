@@ -7,5 +7,5 @@ public class SharedPreferencesKeys {
     public static final String FIRST_DOW_PREF_KEY = "firstdow";
     public static final String LAST_LOGIN_PREF_KEY = "lastlogin";
     public static final String SP_ROOT_NAME = "flowness";
-
+    public static final String FIB_TOKEN_PREF_KEY = "FirebaseIID";
 }
