@@ -2,8 +2,11 @@ package com.flowness.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.flowness.utils.SharedPreferencesKeys;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -20,6 +23,15 @@ public class SplashActivity extends AppCompatActivity {
         editor.apply();
         // Start home activity
         startActivity(new Intent(SplashActivity.this, NavDrawerActivity.class));
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            int verCode = pInfo.versionCode;
+            Toast.makeText(SplashActivity.this, String.format("Version is %s(%d)", version, verCode), Toast.LENGTH_LONG).show();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         // close splash activity
         finish();
     }
