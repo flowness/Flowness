@@ -30,7 +30,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +42,7 @@ public class NavDrawerActivity extends AppCompatActivity
     //
     private TextView tvMonthAmount;
     private TextView tvMonthCost;
+    private String savedModuleSN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +73,10 @@ public class NavDrawerActivity extends AppCompatActivity
 
         TextView tvMeterName = navigationView.getHeaderView(0).findViewById(R.id.meter_name_txt);
         SharedPreferences pref = getApplicationContext().getSharedPreferences(SharedPreferencesKeys.SP_ROOT_NAME, MODE_PRIVATE); // 0 - for private mode
-        String savedMeterSN = pref.getString(SharedPreferencesKeys.SAVED_METER_SN_PREF_KEY, null); // getting String
-        if (!(savedMeterSN == null || savedMeterSN.isEmpty())) {
-            tvMeterName.setText(String.format("Current Meter: %s", savedMeterSN));
+        // getting String
+        savedModuleSN = pref.getString(SharedPreferencesKeys.SAVED_METER_SN_PREF_KEY, null);
+        if (!(savedModuleSN == null || savedModuleSN.isEmpty())) {
+            tvMeterName.setText(String.format("Current Meter: %s", savedModuleSN));
         }
 
         TextView tvLastLogin = navigationView.getHeaderView(0).findViewById(R.id.last_login_txt);
@@ -170,7 +171,6 @@ public class NavDrawerActivity extends AppCompatActivity
                                         if (response.isSuccess()) {
                                             try {
                                                 JSONObject responseJson = new JSONObject(response.data);
-//                            JSONObject responseBody = responseJson.getJSONObject("body");
                                                 JSONObject body = new JSONObject(responseJson.getString("body"));
                                                 String count = body.getJSONObject("totalCount").getString("N");
                                                 String date = body.getJSONObject("measurementDate").getString("S");
@@ -190,9 +190,9 @@ public class NavDrawerActivity extends AppCompatActivity
             };
 
 
-            ScheduledFuture<?> delayFuture = sch.scheduleWithFixedDelay(delayTask, 0, 5, TimeUnit.SECONDS);
+            sch.scheduleWithFixedDelay(delayTask, 0, 1, TimeUnit.MINUTES);
         }
-//        String url = String.format("https://yg8rvhiiq0.execute-api.eu-west-1.amazonaws.com/poc/total?moduleSN=%s", savedMeterSN);
+//        String url = String.format("https://yg8rvhiiq0.execute-api.eu-west-1.amazonaws.com/poc/total?moduleSN=%s", savedModuleSN);
 //        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 //                new Response.Listener<String>() {
 //                    @Override
@@ -234,7 +234,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
