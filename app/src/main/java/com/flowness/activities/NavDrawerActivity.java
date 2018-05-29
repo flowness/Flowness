@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.flowness.R;
 import com.flowness.utils.DateUtils;
+import com.flowness.utils.DynamoDBUtils;
 import com.flowness.utils.SharedPreferencesKeys;
 import com.flowness.volley.BasicRequest;
 import com.flowness.volley.GetCountTotalPerModuleRequest;
@@ -116,9 +117,9 @@ public class NavDrawerActivity extends AppCompatActivity
                                 JSONObject responseJson = new JSONObject(response.data);
 //                            JSONObject responseBody = responseJson.getJSONObject("body");
                                 JSONObject body = new JSONObject(responseJson.getString("body"));
-                                String count = body.getJSONObject("totalCount").getString("N");
-                                tvMonthAmount.setText(count);
-                                tvMonthCost.setText(String.valueOf(Float.valueOf(count) * unitCost));
+                                double count = DynamoDBUtils.getDynamoDBFloat(body, "totalCount");
+                                tvMonthAmount.setText(String.valueOf(count));
+                                tvMonthCost.setText(String.valueOf(count * unitCost));
                                 Log.d("Counter", "total response");
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -172,10 +173,10 @@ public class NavDrawerActivity extends AppCompatActivity
                                             try {
                                                 JSONObject responseJson = new JSONObject(response.data);
                                                 JSONObject body = new JSONObject(responseJson.getString("body"));
-                                                String count = body.getJSONObject("totalCount").getString("N");
-                                                String date = body.getJSONObject("measurementDate").getString("S");
-                                                tvCounter.setText(count);
-                                                tvLastMeasure.setText(String.format("Last Update: %s", getDateFromString(date)));
+                                                double count = DynamoDBUtils.getDynamoDBFloat(body, "totalCount");
+                                                Date date = DynamoDBUtils.getDynamoDBDate(body, "measurementDate");
+                                                tvCounter.setText(String.valueOf(count));
+                                                tvLastMeasure.setText(String.format("Last Update: %s", convertDateToString(date)));
                                                 Log.d("Counter", "total response");
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -221,15 +222,6 @@ public class NavDrawerActivity extends AppCompatActivity
 //        // Add the request to the RequestQueue.
 //        RequestQueue queue = Volley.newRequestQueue(this);
 //        queue.add(stringRequest);
-    }
-
-    private String getDateFromString(String dateStr) {
-        try {
-            Date date = DateUtils.getDate(dateStr);
-            return convertDateToString(date);
-        } catch (ParseException e) {
-            return "N/A";
-        }
     }
 
     @Override

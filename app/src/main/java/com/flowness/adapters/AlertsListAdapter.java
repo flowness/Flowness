@@ -3,6 +3,7 @@ package com.flowness.adapters;
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flowness.R;
+import com.flowness.activities.AlertsConfigActivity;
 import com.flowness.model.Alert;
+import com.flowness.volley.ApproveAlertRequest;
+import com.flowness.volley.BasicRequest;
+import com.flowness.volley.UpdateAlertsConfigRequest;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -47,9 +55,33 @@ public class AlertsListAdapter extends ArrayAdapter<Alert> implements View.OnCli
                     snackBar.setAction("YES", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            String postBody = getPostBody();
+                            new ApproveAlertRequest(postBody,
+                                    new BasicRequest.ResponseListener() {
+                                        @Override
+                                        public void onResponse(BasicRequest.Response response) {
+                                            if (response.isSuccess()) {
+                                                try {
+                                                    JSONObject responseJson = new JSONObject(response.data);
+                                                    alertModel.setAlertApproved();
+                                                    notifyDataSetChanged();
+                                                    Log.d("Alerts approve", String.format("Alert was approved"));
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+                                    }).execute(mContext);
                             snackBar.dismiss();
                         }
+
+                        private String getPostBody() {
+                            JsonObject requestBody = new JsonObject();
+                            requestBody.addProperty("notificationId", alertModel.getAlertId());
+                            return requestBody.toString();
+                        }
+
+
                     });
                     snackBar.show();
                 }
@@ -91,7 +123,7 @@ public class AlertsListAdapter extends ArrayAdapter<Alert> implements View.OnCli
 
         viewHolder.txtTitle.setText(getAlertTitle(alertItem.getAlertType()));
         viewHolder.txtDescription.setText(alertItem.getAlertDate().toString());
-        viewHolder.iconApproved.setImageResource(alertItem.isAlertApproved() ? android.R.drawable.checkbox_on_background: android.R.drawable.checkbox_off_background);
+        viewHolder.iconApproved.setImageResource(alertItem.isAlertApproved() ? android.R.drawable.checkbox_on_background : android.R.drawable.checkbox_off_background);
         viewHolder.iconApproved.setOnClickListener(this);
         viewHolder.iconApproved.setTag(position);
         // Return the completed view to render on screen
@@ -100,8 +132,10 @@ public class AlertsListAdapter extends ArrayAdapter<Alert> implements View.OnCli
 
     private String getAlertTitle(int alertType) {
         switch (alertType) {
-            case 1 : return "0-Flow Hours Alert";
-            default: return "Genaral Alert";
+            case 1:
+                return "0-Flow Hours Alert";
+            default:
+                return "Genaral Alert";
         }
     }
 }

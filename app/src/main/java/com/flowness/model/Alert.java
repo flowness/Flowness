@@ -6,11 +6,13 @@ public class Alert {
     private Date alertDate;
     private int alertType;
     private boolean alertApproved;
+    private String alertId;
 
-    public Alert(Date alertDate, int alertType, boolean alertApproved) {
+    public Alert(Date alertDate, int alertType, boolean alertApproved, String alertId) {
         this.alertDate = alertDate;
         this.alertType = alertType;
         this.alertApproved = alertApproved;
+        this.alertId = alertId;
     }
 
     public Date getAlertDate() {
@@ -23,5 +25,13 @@ public class Alert {
 
     public boolean isAlertApproved() {
         return alertApproved;
+    }
+
+    public String getAlertId() {
+        return alertId;
+    }
+
+    public void setAlertApproved() {
+        this.alertApproved = true;
     }
 }

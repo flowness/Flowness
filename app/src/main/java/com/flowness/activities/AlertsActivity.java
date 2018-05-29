@@ -11,6 +11,7 @@ import com.flowness.R;
 import com.flowness.adapters.AlertsListAdapter;
 import com.flowness.model.Alert;
 import com.flowness.utils.DateUtils;
+import com.flowness.utils.DynamoDBUtils;
 import com.flowness.utils.SharedPreferencesKeys;
 import com.flowness.volley.BasicRequest;
 import com.flowness.volley.GetAlertsRequest;
@@ -67,15 +68,13 @@ public class AlertsActivity extends AppCompatActivity {
                                 JSONArray alertsArray = new JSONArray(responseJson.getString("body"));
                                 for (int i = 0; i < alertsArray.length() ; i++) {
                                     JSONObject alertJson = alertsArray.getJSONObject(i);
-                                    Date alertDate = getDynamoDBDate(alertJson, "notificationDate");
-                                    int alertType = getDynamoDBInt(alertJson, "notificationType");
-                                    boolean alertApproved = getDynamoDBBool(alertJson, "approved", false);
-                                    alertsList.add(new Alert(alertDate, alertType, alertApproved));
+                                    Date alertDate = DynamoDBUtils.getDynamoDBDate(alertJson, "notificationDate");
+                                    int alertType = DynamoDBUtils.getDynamoDBInt(alertJson, "notificationType");
+                                    boolean alertApproved = DynamoDBUtils.getDynamoDBBool(alertJson, "approved", false);
+                                    String alertId = DynamoDBUtils.getDynamoDBString(alertJson, "notificationId");
+                                    alertsList.add(new Alert(alertDate, alertType, alertApproved, alertId));
                                 }
                                 adapter.clear();
-                                //
-
-                                //
                                 adapter.addAll(alertsList);
                                 adapter.notifyDataSetChanged();
                             } catch (Exception e) {
@@ -84,41 +83,6 @@ public class AlertsActivity extends AppCompatActivity {
                         }
                     }
 
-                    private List<String> getStringList(List<Alert> alertsList) {
-                        List<String> result = new ArrayList<>();
-                        for (Alert al : alertsList) {
-                            result.add(al.getAlertDate().toString());
-                        }
-                        return result;
-                    }
-
-                    private int getDynamoDBInt(JSONObject jsonObject, String keyName) {
-                        try {
-                            JSONObject dynamoValue = jsonObject.getJSONObject(keyName);
-                            return Integer.valueOf(dynamoValue.getString("N"));
-                        } catch (JSONException e) {
-                            return -1;
-                        }
-                    }
-
-                    private boolean getDynamoDBBool(JSONObject jsonObject, String keyName, boolean defaultVal) {
-                        try {
-                            JSONObject dynamoValue = jsonObject.getJSONObject(keyName);
-                            return dynamoValue.getBoolean("BOOL");
-                        } catch (JSONException e) {
-                            return defaultVal;
-                        }
-                    }
-
-                    private Date getDynamoDBDate(JSONObject jsonObject, String keyName) {
-                        try {
-                            JSONObject dynamoValue = jsonObject.getJSONObject(keyName);
-                            String dateStr = dynamoValue.getString("S");
-                            return DateUtils.getDate(dateStr);
-                        } catch (Exception e) {
-                            return null;
-                        }
-                    }
                 }).execute(AlertsActivity.this);
     }
 

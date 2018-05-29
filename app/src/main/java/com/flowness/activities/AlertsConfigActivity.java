@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.flowness.R;
+import com.flowness.utils.DynamoDBUtils;
 import com.flowness.utils.JsonConst;
 import com.flowness.utils.SharedPreferencesKeys;
 import com.flowness.volley.BasicRequest;
@@ -104,16 +105,16 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
                                 JSONObject responseJson = new JSONObject(response.data);
 //                            JSONObject responseBody = responseJson.getJSONObject("body");
                                 JSONObject body = new JSONObject(responseJson.getString("body"));
-                                swFreezeAlert.setChecked(getDynamoDBBool(body, "freezeAlert", false));
-                                swLeakageAlert.setChecked(getDynamoDBBool(body, "leakageAlert", false));
-                                swMonthlyCostAlert.setChecked(getDynamoDBBool(body, "monthlyCostAlert", false));
-                                tvMonthlyCost.setText(getDynamoDBString(body, "monthlyCostAlertAmount", "100"));
+                                swFreezeAlert.setChecked(DynamoDBUtils.getDynamoDBBool(body, "freezeAlert", false));
+                                swLeakageAlert.setChecked(DynamoDBUtils.getDynamoDBBool(body, "leakageAlert", false));
+                                swMonthlyCostAlert.setChecked(DynamoDBUtils.getDynamoDBBool(body, "monthlyCostAlert", false));
+                                tvMonthlyCost.setText(DynamoDBUtils.getDynamoDBString(body, "monthlyCostAlertAmount", "100"));
                                 setEnabledLinearLayout(swMonthlyCostAlert.isChecked(), R.id.monthly_cost_alert_config_amount_layout);
-                                swIrregularityAlert.setChecked(getDynamoDBBool(body, "irregularityAlert", false));
-                                swZeroFlowAlert.setChecked(getDynamoDBBool(body, "zeroFlowHoursAlert", false));
-                                String zeroFlowHoursStart = getDynamoDBString(body, "zeroFlowHoursStart", "0000");
+                                swIrregularityAlert.setChecked(DynamoDBUtils.getDynamoDBBool(body, "irregularityAlert", false));
+                                swZeroFlowAlert.setChecked(DynamoDBUtils.getDynamoDBBool(body, "zeroFlowHoursAlert", false));
+                                String zeroFlowHoursStart = DynamoDBUtils.getDynamoDBString(body, "zeroFlowHoursStart", "0000");
                                 tvZeroFlowStart.setText(getHourFormatFromString(zeroFlowHoursStart));
-                                String zeroFlowHoursEnd = getDynamoDBString(body, "zeroFlowHoursEnd", "0000");
+                                String zeroFlowHoursEnd = DynamoDBUtils.getDynamoDBString(body, "zeroFlowHoursEnd", "0000");
                                 tvZeroFlowEnd.setText(getHourFormatFromString(zeroFlowHoursEnd));
                                 setEnabledLinearLayout(swZeroFlowAlert.isChecked(), R.id.zero_flow_alert_hours_layout);
 
@@ -126,24 +127,6 @@ public class AlertsConfigActivity extends AppCompatActivity implements View.OnCl
 
                     private String getHourFormatFromString(String dbStr) {
                         return String.format("%c%c:%c%c", dbStr.charAt(0), dbStr.charAt(1), dbStr.charAt(2), dbStr.charAt(3));
-                    }
-
-                    private boolean getDynamoDBBool(JSONObject jsonObject, String keyName, boolean defaultVal) {
-                        try {
-                            JSONObject dynamoValue = jsonObject.getJSONObject(keyName);
-                            return dynamoValue.getBoolean("BOOL");
-                        } catch (JSONException e) {
-                            return defaultVal;
-                        }
-                    }
-
-                    private String getDynamoDBString(JSONObject jsonObject, String keyName, String defaultVal) {
-                        try {
-                            JSONObject dynamoValue = jsonObject.getJSONObject(keyName);
-                            return dynamoValue.getString("S");
-                        } catch (JSONException e) {
-                            return defaultVal;
-                        }
                     }
                 }).execute(AlertsConfigActivity.this);
     }
