@@ -168,7 +168,7 @@ public class BasicRequest implements com.android.volley.Response.ErrorListener{
                 retries,
                 0));
         mRequestQueue.add(mRequest);
-        mRequestQueue.start();
+//        mRequestQueue.start();
     }
 
     public RequestQueue getRequestQueue(Context context)
