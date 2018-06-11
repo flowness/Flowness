@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.flowness">
+    package="com.aquasafe">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -38,7 +38,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.flowness.activities.MainActivity" />
+                android:value="com.aquasafe.activities.MainActivity" />
         </activity>
         <activity
             android:name=".activities.MeterSettingsActivity"
@@ -55,7 +55,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.flowness.activities.MainActivity" />
+                android:value="com.aquasafe.activities.MainActivity" />
         </activity>
 
         <service android:name=".service.MessageReceiver">

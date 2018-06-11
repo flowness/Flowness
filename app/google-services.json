@@ -1,35 +1,39 @@
 {
   "project_info": {
-    "project_number": "630606175350",
-    "firebase_url": "https://flowness-82d26.firebaseio.com",
-    "project_id": "flowness-82d26",
-    "storage_bucket": "flowness-82d26.appspot.com"
+    "project_number": "726896954954",
+    "firebase_url": "https://aquasafe-2e7c5.firebaseio.com",
+    "project_id": "aquasafe-2e7c5",
+    "storage_bucket": "aquasafe-2e7c5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:630606175350:android:66ec6e9effc4e695",
+        "mobilesdk_app_id": "1:726896954954:android:5e59b86e0a8c413b",
         "android_client_info": {
-          "package_name": "com.flowness"
+          "package_name": "com.aquasafe"
         }
       },
       "oauth_client": [
         {
-          "client_id": "630606175350-8q3s8ids43lq7nogg94o7ehs8l79vtu1.apps.googleusercontent.com",
+          "client_id": "726896954954-urflgkq9ul09bkifu1tu1klqb2haugc4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.flowness",
-            "certificate_hash": "46a9ab5663a6827ce59657031a02777bcfcba0f4"
+            "package_name": "com.aquasafe",
+            "certificate_hash": "159b923b248642f69ec353cf845b2826221a0519"
           }
         },
         {
-          "client_id": "630606175350-35gq349qodp87l7qf36rvot71k6o7ain.apps.googleusercontent.com",
+          "client_id": "726896954954-f8rjflag4pkiok4psl6gkcvopjc9jbaf.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "726896954954-f8rjflag4pkiok4psl6gkcvopjc9jbaf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDntHYaOuAXO3EwBYAe2xrT64iIH5TBzMU"
+          "current_key": "AIzaSyB4j_pOkmp4dz6Gkw8lewrUFSBkOKriWis"
         }
       ],
       "services": {
@@ -40,7 +44,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "630606175350-35gq349qodp87l7qf36rvot71k6o7ain.apps.googleusercontent.com",
+              "client_id": "726896954954-f8rjflag4pkiok4psl6gkcvopjc9jbaf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
